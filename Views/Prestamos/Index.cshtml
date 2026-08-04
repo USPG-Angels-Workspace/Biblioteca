@@ -1,0 +1,82 @@
+@model List<PrestamosController.PrestamoFila>
+
+<h1 class="text-2xl font-bold text-slate-800 mb-6">Gestión de préstamos</h1>
+
+@if (TempData["Error"] != null)
+{
+    <p class="text-red-600 text-sm mb-4">@TempData["Error"]</p>
+}
+
+<form method="post" asp-action="Prestar" class="bg-white rounded shadow p-6 mb-6 grid grid-cols-2 gap-4">
+    <div>
+        <label class="block text-sm font-medium text-slate-700 mb-1">Usuario</label>
+        <select name="usuarioId" required class="w-full border border-slate-300 rounded px-3 py-2">
+            <option value="">Selecciona un usuario</option>
+            @foreach (var usuario in (List<Usuario>)ViewBag.Usuarios)
+            {
+                <option value="@usuario.GetId()">@usuario.GetNombre()</option>
+            }
+        </select>
+    </div>
+    <div>
+        <label class="block text-sm font-medium text-slate-700 mb-1">Libro</label>
+        <select name="libroId" required class="w-full border border-slate-300 rounded px-3 py-2">
+            <option value="">Selecciona un libro disponible</option>
+            @foreach (var libro in (List<Libro>)ViewBag.LibrosDisponibles)
+            {
+                <option value="@libro.GetId()">@libro.GetTitulo()</option>
+            }
+        </select>
+    </div>
+    <div>
+        <label class="block text-sm font-medium text-slate-700 mb-1">Fecha de préstamo</label>
+        <input type="date" name="fechaPrestamo" value="@DateTime.Now.ToString("yyyy-MM-dd")" required
+               class="w-full border border-slate-300 rounded px-3 py-2" />
+    </div>
+    <div>
+        <label class="block text-sm font-medium text-slate-700 mb-1">Devolución esperada</label>
+        <input type="date" name="fechaDevolucionEsperada" value="@DateTime.Now.AddDays(7).ToString("yyyy-MM-dd")" required
+               class="w-full border border-slate-300 rounded px-3 py-2" />
+    </div>
+    <div class="col-span-2">
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white rounded px-4 py-2">
+            Registrar préstamo
+        </button>
+    </div>
+</form>
+
+<table class="w-full bg-white rounded shadow overflow-hidden">
+    <thead class="bg-slate-100 text-left text-sm text-slate-600">
+        <tr>
+            <th class="px-4 py-2">Usuario</th>
+            <th class="px-4 py-2">Libro</th>
+            <th class="px-4 py-2">Fecha préstamo</th>
+            <th class="px-4 py-2">Devolución esperada</th>
+            <th class="px-4 py-2">Devolución real</th>
+            <th class="px-4 py-2">Estado</th>
+            <th class="px-4 py-2"></th>
+        </tr>
+    </thead>
+    <tbody class="divide-y divide-slate-100">
+        @foreach (var prestamo in Model)
+        {
+            <tr>
+                <td class="px-4 py-2">@prestamo.Usuario</td>
+                <td class="px-4 py-2">@prestamo.Libro</td>
+                <td class="px-4 py-2">@prestamo.FechaPrestamo.ToShortDateString()</td>
+                <td class="px-4 py-2">@prestamo.FechaDevolucionEsperada.ToShortDateString()</td>
+                <td class="px-4 py-2">@(prestamo.FechaDevolucionReal.HasValue ? prestamo.FechaDevolucionReal.Value.ToShortDateString() : "-")</td>
+                <td class="px-4 py-2">@prestamo.Estado</td>
+                <td class="px-4 py-2">
+                    @if (prestamo.Estado == "Activo")
+                    {
+                        <form method="post" asp-action="Devolver" class="inline">
+                            <input type="hidden" name="id" value="@prestamo.Id" />
+                            <button type="submit" class="text-blue-600 hover:underline">Registrar devolución</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
