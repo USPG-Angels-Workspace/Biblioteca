@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Biblioteca.Controllers;
 
-public class LibrosController : ControladorAutenticado
+public class LibrosController : ControladorEmpleado
 {
     private readonly LibroService libroService;
 

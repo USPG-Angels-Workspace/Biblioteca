@@ -6,10 +6,12 @@ namespace Biblioteca.Controllers;
 public class CuentaController : Controller
 {
     private readonly BibliotecarioService bibliotecarioService;
+    private readonly UsuarioService usuarioService;
 
-    public CuentaController(BibliotecarioService bibliotecarioService)
+    public CuentaController(BibliotecarioService bibliotecarioService, UsuarioService usuarioService)
     {
         this.bibliotecarioService = bibliotecarioService;
+        this.usuarioService = usuarioService;
     }
 
     public IActionResult Index()
@@ -32,15 +34,25 @@ public class CuentaController : Controller
         }
 
         var bibliotecario = bibliotecarioService.ValidarLogin(nombreUsuario, contrasena);
-        if (bibliotecario == null)
+        if (bibliotecario != null)
         {
-            ViewBag.Error = "Usuario o contraseña incorrectos.";
-            return View();
+            HttpContext.Session.SetInt32("PersonaId", bibliotecario.GetId());
+            HttpContext.Session.SetString("PersonaNombre", bibliotecario.GetNombre());
+            HttpContext.Session.SetString("PersonaRol", "Empleado");
+            return RedirectToAction("Index", "Libros");
         }
 
-        HttpContext.Session.SetInt32("BibliotecarioId", bibliotecario.GetId());
-        HttpContext.Session.SetString("BibliotecarioNombre", bibliotecario.GetNombre());
-        return RedirectToAction("Index", "Libros");
+        var usuario = usuarioService.ValidarLogin(nombreUsuario, contrasena);
+        if (usuario != null)
+        {
+            HttpContext.Session.SetInt32("PersonaId", usuario.GetId());
+            HttpContext.Session.SetString("PersonaNombre", usuario.GetNombre());
+            HttpContext.Session.SetString("PersonaRol", "Usuario");
+            return RedirectToAction("Index", "Portal");
+        }
+
+        ViewBag.Error = "Usuario o contraseña incorrectos.";
+        return View();
     }
 
     public IActionResult Logout()
