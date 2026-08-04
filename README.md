@@ -6,12 +6,18 @@ para practicar POO (encapsulamiento, herencia y polimorfismo) y el patrón MVC.
 
 ## Cómo ejecutarlo
 
-1. Desde la raíz del proyecto:
+1. Desde la raíz del proyecto, generar los datos de ejemplo (solo la primera vez,
+   o cuando quieras reiniciar los datos desde cero):
+   ```bash
+   dotnet run -- seed
+   ```
+2. Levantar la app:
    ```bash
    dotnet run
    ```
-2. Abrir en el navegador la URL que muestra la consola (por ejemplo `http://localhost:5000`).
-3. Iniciar sesión con alguna de las credenciales de ejemplo:
+3. Abrir en el navegador la URL que muestra la consola (por ejemplo `http://localhost:5000`).
+4. Iniciar sesión con alguna de las credenciales de ejemplo (o crear una cuenta de
+   socio nueva desde el link "Crear cuenta" del login):
 
    | Rol | Usuario | Contraseña | Qué ve |
    |---|---|---|---|
@@ -22,7 +28,9 @@ Corre igual en Windows, Linux o Mac — no requiere nada adicional (los estilos
 usan [Tailwind CSS por CDN](https://tailwindcss.com/), sin necesidad de Node/npm).
 
 Los datos (libros, usuarios, préstamos y bibliotecarios) se guardan en archivos
-JSON dentro de `Data/`, que ya incluyen datos de ejemplo para probar el sistema.
+JSON dentro de `Data/`, que **no se suben al repo** (están en `.gitignore`) —
+se generan localmente con `dotnet run -- seed`, o simplemente usando la app
+(registrar un socio, agregar un libro, etc. ya crea los archivos si no existen).
 
 ## Roles
 
@@ -41,3 +49,5 @@ JSON dentro de `Data/`, que ya incluyen datos de ejemplo para probar el sistema.
   `ControladorEmpleado`/`ControladorUsuario` restringen cada grupo de pantallas según el rol de la sesión.
 - `Views/` — vistas Razor (`.cshtml`), con un layout compartido (`Views/Shared/_Layout.cshtml`)
   que define el menú lateral (distinto según el rol) y carga Tailwind por CDN.
+- `DataSeeder.cs` — genera los datos de ejemplo (usa los mismos `Services` que la app,
+  no escribe JSON directamente). Se ejecuta con `dotnet run -- seed`.
