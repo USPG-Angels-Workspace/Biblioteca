@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>Biblioteca Digital</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50">
+    <div class="flex min-h-screen">
+        <aside class="w-64 bg-slate-800 text-white flex flex-col p-6 space-y-2">
+            <div class="mb-6">
+                <p class="text-sm text-slate-300">Bienvenido,</p>
+                <p class="font-semibold">@ViewBag.BibliotecarioNombre</p>
+            </div>
+            <a asp-controller="Libros" asp-action="Index" class="block px-4 py-2 rounded hover:bg-slate-700">Gestionar libros</a>
+            <a asp-controller="Usuarios" asp-action="Index" class="block px-4 py-2 rounded hover:bg-slate-700">Gestionar usuarios</a>
+            <a asp-controller="Prestamos" asp-action="Index" class="block px-4 py-2 rounded hover:bg-slate-700">Gestionar préstamos</a>
+            <a asp-controller="Cuenta" asp-action="Logout" class="block px-4 py-2 rounded hover:bg-slate-700 mt-auto">Cerrar sesión</a>
+        </aside>
+        <main class="flex-1 p-8">
+            @RenderBody()
+        </main>
+    </div>
+</body>
+</html>
