@@ -6,8 +6,9 @@ public class Usuario : Persona
 {
     private DateTime fechaRegistro;
 
-    public Usuario(int id, string nombre, string identificacion, string contacto, DateTime fechaRegistro)
-        : base(id, nombre, identificacion, contacto)
+    public Usuario(int id, string nombre, string identificacion, string contacto,
+        string nombreUsuario, string contrasena, DateTime fechaRegistro)
+        : base(id, nombre, identificacion, contacto, nombreUsuario, contrasena)
     {
         SetFechaRegistro(fechaRegistro);
     }
