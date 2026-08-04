@@ -16,11 +16,19 @@
         <aside class="w-64 bg-slate-800 text-white flex flex-col p-6 space-y-2">
             <div class="mb-6">
                 <p class="text-sm text-slate-300">Bienvenido,</p>
-                <p class="font-semibold">@ViewBag.BibliotecarioNombre</p>
+                <p class="font-semibold">@ViewBag.PersonaNombre</p>
             </div>
-            <a asp-controller="Libros" asp-action="Index" class="block px-4 py-2 rounded hover:bg-slate-700">Gestionar libros</a>
-            <a asp-controller="Usuarios" asp-action="Index" class="block px-4 py-2 rounded hover:bg-slate-700">Gestionar usuarios</a>
-            <a asp-controller="Prestamos" asp-action="Index" class="block px-4 py-2 rounded hover:bg-slate-700">Gestionar préstamos</a>
+            @if (ViewBag.PersonaRol == "Empleado")
+            {
+                <a asp-controller="Libros" asp-action="Index" class="block px-4 py-2 rounded hover:bg-slate-700">Gestionar libros</a>
+                <a asp-controller="Usuarios" asp-action="Index" class="block px-4 py-2 rounded hover:bg-slate-700">Gestionar usuarios</a>
+                <a asp-controller="Empleados" asp-action="Index" class="block px-4 py-2 rounded hover:bg-slate-700">Gestionar empleados</a>
+                <a asp-controller="Prestamos" asp-action="Index" class="block px-4 py-2 rounded hover:bg-slate-700">Gestionar préstamos</a>
+            }
+            else
+            {
+                <a asp-controller="Portal" asp-action="Index" class="block px-4 py-2 rounded hover:bg-slate-700">Mi portal</a>
+            }
             <a asp-controller="Cuenta" asp-action="Logout" class="block px-4 py-2 rounded hover:bg-slate-700 mt-auto">Cerrar sesión</a>
         </aside>
         <main class="flex-1 p-8">
