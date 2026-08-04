@@ -33,6 +33,11 @@ public class UsuarioService
             u.GetContrasena() == contrasena);
     }
 
+    public bool ExisteNombreUsuario(string nombreUsuario)
+    {
+        return usuarios.Any(u => u.GetNombreUsuario().Equals(nombreUsuario, StringComparison.OrdinalIgnoreCase));
+    }
+
     public List<Usuario> Buscar(string texto)
     {
         if (string.IsNullOrWhiteSpace(texto)) return Listar();

@@ -1,3 +1,4 @@
+using Biblioteca.Models;
 using Biblioteca.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -53,6 +54,43 @@ public class CuentaController : Controller
 
         ViewBag.Error = "Usuario o contraseña incorrectos.";
         return View();
+    }
+
+    public IActionResult Registro()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult Registro(string nombre, string identificacion, string contacto, string nombreUsuario, string contrasena)
+    {
+        if (string.IsNullOrWhiteSpace(nombreUsuario) || string.IsNullOrWhiteSpace(contrasena))
+        {
+            ViewBag.Error = "Ingresa un usuario y una contraseña.";
+            return View();
+        }
+
+        if (usuarioService.ExisteNombreUsuario(nombreUsuario))
+        {
+            ViewBag.Error = "Ese nombre de usuario ya está en uso.";
+            return View();
+        }
+
+        try
+        {
+            var usuario = new Usuario(0, nombre, identificacion, contacto, nombreUsuario, contrasena, DateTime.Now);
+            usuarioService.Agregar(usuario);
+
+            HttpContext.Session.SetInt32("PersonaId", usuario.GetId());
+            HttpContext.Session.SetString("PersonaNombre", usuario.GetNombre());
+            HttpContext.Session.SetString("PersonaRol", "Usuario");
+            return RedirectToAction("Index", "Portal");
+        }
+        catch (ArgumentException ex)
+        {
+            ViewBag.Error = ex.Message;
+            return View();
+        }
     }
 
     public IActionResult Logout()
