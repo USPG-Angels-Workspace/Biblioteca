@@ -26,6 +26,13 @@ public class UsuarioService
         return usuarios.FirstOrDefault(u => u.GetId() == id);
     }
 
+    public Usuario? ValidarLogin(string nombreUsuario, string contrasena)
+    {
+        return usuarios.FirstOrDefault(u =>
+            u.GetNombreUsuario().Equals(nombreUsuario, StringComparison.OrdinalIgnoreCase) &&
+            u.GetContrasena() == contrasena);
+    }
+
     public List<Usuario> Buscar(string texto)
     {
         if (string.IsNullOrWhiteSpace(texto)) return Listar();
@@ -51,6 +58,8 @@ public class UsuarioService
         existente.SetNombre(usuario.GetNombre());
         existente.SetIdentificacion(usuario.GetIdentificacion());
         existente.SetContacto(usuario.GetContacto());
+        existente.SetNombreUsuario(usuario.GetNombreUsuario());
+        existente.SetContrasena(usuario.GetContrasena());
         existente.SetFechaRegistro(usuario.GetFechaRegistro());
         Guardar();
     }
@@ -74,6 +83,8 @@ public class UsuarioService
                 nodo!["Nombre"]!.GetValue<string>(),
                 nodo!["Identificacion"]!.GetValue<string>(),
                 nodo!["Contacto"]!.GetValue<string>(),
+                nodo!["NombreUsuario"]!.GetValue<string>(),
+                nodo!["Contrasena"]!.GetValue<string>(),
                 nodo!["FechaRegistro"]!.GetValue<DateTime>()));
         }
     }
@@ -90,6 +101,8 @@ public class UsuarioService
                 ["Nombre"] = usuario.GetNombre(),
                 ["Identificacion"] = usuario.GetIdentificacion(),
                 ["Contacto"] = usuario.GetContacto(),
+                ["NombreUsuario"] = usuario.GetNombreUsuario(),
+                ["Contrasena"] = usuario.GetContrasena(),
                 ["FechaRegistro"] = usuario.GetFechaRegistro()
             });
         }

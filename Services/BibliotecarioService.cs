@@ -4,7 +4,7 @@ using Biblioteca.Models;
 
 namespace Biblioteca.Services;
 
-// Guarda a los bibliotecarios y valida el inicio de sesión.
+// CRUD de empleados (bibliotecarios) y validación del inicio de sesión.
 public class BibliotecarioService
 {
     private readonly string rutaArchivo;
@@ -23,11 +23,48 @@ public class BibliotecarioService
         }
     }
 
+    public List<Bibliotecario> Listar()
+    {
+        return bibliotecarios.ToList();
+    }
+
+    public Bibliotecario? BuscarPorId(int id)
+    {
+        return bibliotecarios.FirstOrDefault(b => b.GetId() == id);
+    }
+
     public Bibliotecario? ValidarLogin(string nombreUsuario, string contrasena)
     {
         return bibliotecarios.FirstOrDefault(b =>
             b.GetNombreUsuario().Equals(nombreUsuario, StringComparison.OrdinalIgnoreCase) &&
             b.GetContrasena() == contrasena);
+    }
+
+    public void Agregar(Bibliotecario bibliotecario)
+    {
+        bibliotecario.SetId(bibliotecarios.Count == 0 ? 1 : bibliotecarios.Max(b => b.GetId()) + 1);
+        bibliotecarios.Add(bibliotecario);
+        Guardar();
+    }
+
+    public void Editar(Bibliotecario bibliotecario)
+    {
+        var existente = BuscarPorId(bibliotecario.GetId());
+        if (existente == null)
+            throw new InvalidOperationException("El empleado no existe.");
+
+        existente.SetNombre(bibliotecario.GetNombre());
+        existente.SetIdentificacion(bibliotecario.GetIdentificacion());
+        existente.SetContacto(bibliotecario.GetContacto());
+        existente.SetNombreUsuario(bibliotecario.GetNombreUsuario());
+        existente.SetContrasena(bibliotecario.GetContrasena());
+        Guardar();
+    }
+
+    public void Eliminar(int id)
+    {
+        bibliotecarios.RemoveAll(b => b.GetId() == id);
+        Guardar();
     }
 
     private void Cargar()
