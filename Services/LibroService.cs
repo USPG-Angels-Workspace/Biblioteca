@@ -7,11 +7,12 @@ namespace Biblioteca.Services;
 // CRUD de libros del catálogo, con persistencia en JSON.
 public class LibroService
 {
-    private readonly string rutaArchivo = Path.Combine(AppContext.BaseDirectory, "Data", "libros.json");
+    private readonly string rutaArchivo;
     private readonly List<Libro> libros = new();
 
-    public LibroService()
+    public LibroService(IWebHostEnvironment env)
     {
+        rutaArchivo = Path.Combine(env.ContentRootPath, "Data", "libros.json");
         Cargar();
     }
 

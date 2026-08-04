@@ -7,11 +7,12 @@ namespace Biblioteca.Services;
 // CRUD de usuarios de la biblioteca, con persistencia en JSON.
 public class UsuarioService
 {
-    private readonly string rutaArchivo = Path.Combine(AppContext.BaseDirectory, "Data", "usuarios.json");
+    private readonly string rutaArchivo;
     private readonly List<Usuario> usuarios = new();
 
-    public UsuarioService()
+    public UsuarioService(IWebHostEnvironment env)
     {
+        rutaArchivo = Path.Combine(env.ContentRootPath, "Data", "usuarios.json");
         Cargar();
     }
 

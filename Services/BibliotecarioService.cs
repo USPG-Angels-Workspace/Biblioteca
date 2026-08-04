@@ -7,11 +7,12 @@ namespace Biblioteca.Services;
 // Guarda a los bibliotecarios y valida el inicio de sesión.
 public class BibliotecarioService
 {
-    private readonly string rutaArchivo = Path.Combine(AppContext.BaseDirectory, "Data", "bibliotecarios.json");
+    private readonly string rutaArchivo;
     private readonly List<Bibliotecario> bibliotecarios = new();
 
-    public BibliotecarioService()
+    public BibliotecarioService(IWebHostEnvironment env)
     {
+        rutaArchivo = Path.Combine(env.ContentRootPath, "Data", "bibliotecarios.json");
         Cargar();
 
         // Primera vez que se ejecuta el programa: se crea un bibliotecario por defecto.

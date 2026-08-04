@@ -8,13 +8,14 @@ namespace Biblioteca.Services;
 // el libro correspondiente al crear o devolver un préstamo.
 public class PrestamoService
 {
-    private readonly string rutaArchivo = Path.Combine(AppContext.BaseDirectory, "Data", "prestamos.json");
+    private readonly string rutaArchivo;
     private readonly List<Prestamo> prestamos = new();
     private readonly LibroService libroService;
 
-    public PrestamoService(LibroService libroService)
+    public PrestamoService(LibroService libroService, IWebHostEnvironment env)
     {
         this.libroService = libroService;
+        rutaArchivo = Path.Combine(env.ContentRootPath, "Data", "prestamos.json");
         Cargar();
     }
 
