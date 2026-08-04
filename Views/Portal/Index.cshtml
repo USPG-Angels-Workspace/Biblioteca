@@ -1,0 +1,57 @@
+@model List<PrestamosController.PrestamoFila>
+
+<h1 class="text-2xl font-bold text-slate-800 mb-6">Mi portal</h1>
+
+<h2 class="text-lg font-semibold text-slate-700 mb-3">Mis préstamos</h2>
+<table class="w-full bg-white rounded shadow overflow-hidden mb-8">
+    <thead class="bg-slate-100 text-left text-sm text-slate-600">
+        <tr>
+            <th class="px-4 py-2">Libro</th>
+            <th class="px-4 py-2">Fecha préstamo</th>
+            <th class="px-4 py-2">Devolución esperada</th>
+            <th class="px-4 py-2">Devolución real</th>
+            <th class="px-4 py-2">Estado</th>
+        </tr>
+    </thead>
+    <tbody class="divide-y divide-slate-100">
+        @if (Model.Count == 0)
+        {
+            <tr>
+                <td class="px-4 py-2 text-slate-500" colspan="5">Todavía no tienes préstamos registrados.</td>
+            </tr>
+        }
+        @foreach (var prestamo in Model)
+        {
+            <tr>
+                <td class="px-4 py-2">@prestamo.Libro</td>
+                <td class="px-4 py-2">@prestamo.FechaPrestamo.ToShortDateString()</td>
+                <td class="px-4 py-2">@prestamo.FechaDevolucionEsperada.ToShortDateString()</td>
+                <td class="px-4 py-2">@(prestamo.FechaDevolucionReal.HasValue ? prestamo.FechaDevolucionReal.Value.ToShortDateString() : "-")</td>
+                <td class="px-4 py-2">@prestamo.Estado</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h2 class="text-lg font-semibold text-slate-700 mb-3">Libros disponibles para prestar</h2>
+<table class="w-full bg-white rounded shadow overflow-hidden">
+    <thead class="bg-slate-100 text-left text-sm text-slate-600">
+        <tr>
+            <th class="px-4 py-2">Título</th>
+            <th class="px-4 py-2">Autor</th>
+            <th class="px-4 py-2">Categoría</th>
+            <th class="px-4 py-2">Disponibles</th>
+        </tr>
+    </thead>
+    <tbody class="divide-y divide-slate-100">
+        @foreach (var libro in (List<Libro>)ViewBag.LibrosDisponibles)
+        {
+            <tr>
+                <td class="px-4 py-2">@libro.GetTitulo()</td>
+                <td class="px-4 py-2">@libro.GetAutor()</td>
+                <td class="px-4 py-2">@libro.GetCategoria()</td>
+                <td class="px-4 py-2">@libro.GetCantidadDisponible()</td>
+            </tr>
+        }
+    </tbody>
+</table>
