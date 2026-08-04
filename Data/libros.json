@@ -1,0 +1,47 @@
+[
+  {
+    "Id": 1,
+    "Titulo": "Cien a\u00F1os de soledad",
+    "Autor": "Gabriel Garc\u00EDa M\u00E1rquez",
+    "ISBN": "978-0307474728",
+    "Categoria": "Novela",
+    "CantidadTotal": 3,
+    "CantidadDisponible": 2
+  },
+  {
+    "Id": 2,
+    "Titulo": "El Principito",
+    "Autor": "Antoine de Saint-Exup\u00E9ry",
+    "ISBN": "978-0156012195",
+    "Categoria": "F\u00E1bula",
+    "CantidadTotal": 4,
+    "CantidadDisponible": 4
+  },
+  {
+    "Id": 3,
+    "Titulo": "Clean Code",
+    "Autor": "Robert C. Martin",
+    "ISBN": "978-0132350884",
+    "Categoria": "Tecnolog\u00EDa",
+    "CantidadTotal": 2,
+    "CantidadDisponible": 1
+  },
+  {
+    "Id": 4,
+    "Titulo": "Introducci\u00F3n a la Programaci\u00F3n",
+    "Autor": "Luis Joyanes Aguilar",
+    "ISBN": "978-9701073947",
+    "Categoria": "Educaci\u00F3n",
+    "CantidadTotal": 5,
+    "CantidadDisponible": 5
+  },
+  {
+    "Id": 5,
+    "Titulo": "Sapiens: De animales a dioses",
+    "Autor": "Yuval Noah Harari",
+    "ISBN": "978-8499926223",
+    "Categoria": "Historia",
+    "CantidadTotal": 2,
+    "CantidadDisponible": 2
+  }
+]

@@ -1,26 +1,24 @@
-using Biblioteca.Forms;
 using Biblioteca.Services;
 
-namespace Biblioteca;
+var builder = WebApplication.CreateBuilder(args);
 
-static class Program
-{
-    /// <summary>
-    ///  The main entry point for the application.
-    /// </summary>
-    [STAThread]
-    static void Main()
-    {
-        // To customize application configuration such as set high DPI settings or default font,
-        // see https://aka.ms/applicationconfiguration.
-        ApplicationConfiguration.Initialize();
+builder.Services.AddControllersWithViews();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession();
 
-        var bibliotecarioService = new BibliotecarioService();
+builder.Services.AddSingleton<BibliotecarioService>();
+builder.Services.AddSingleton<UsuarioService>();
+builder.Services.AddSingleton<LibroService>();
+builder.Services.AddSingleton<PrestamoService>();
 
-        using var formLogin = new FormLogin(bibliotecarioService);
-        if (formLogin.ShowDialog() == DialogResult.OK)
-        {
-            Application.Run(new FormPrincipal(formLogin.ObtenerBibliotecarioActual()!));
-        }
-    }
-}
+var app = builder.Build();
+
+app.UseStaticFiles();
+app.UseSession();
+app.UseRouting();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Cuenta}/{action=Index}/{id?}");
+
+app.Run();

@@ -1,0 +1,23 @@
+[
+  {
+    "Id": 1,
+    "Nombre": "María Fernanda López",
+    "Identificacion": "2001-12345-0101",
+    "Contacto": "maria.lopez@uspg.edu.gt",
+    "FechaRegistro": "2026-06-15T00:00:00"
+  },
+  {
+    "Id": 2,
+    "Nombre": "Carlos Andrés Pérez",
+    "Identificacion": "2001-23456-0101",
+    "Contacto": "carlos.perez@uspg.edu.gt",
+    "FechaRegistro": "2026-06-20T00:00:00"
+  },
+  {
+    "Id": 3,
+    "Nombre": "Ana Lucía Ramírez",
+    "Identificacion": "2001-34567-0101",
+    "Contacto": "ana.ramirez@uspg.edu.gt",
+    "FechaRegistro": "2026-07-02T00:00:00"
+  }
+]
