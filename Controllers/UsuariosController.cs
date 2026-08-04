@@ -13,11 +13,10 @@ public class UsuariosController : ControladorAutenticado
         this.usuarioService = usuarioService;
     }
 
-    public IActionResult Index(string? buscar, int? editarId)
+    public IActionResult Index(string? buscar)
     {
         var usuarios = string.IsNullOrWhiteSpace(buscar) ? usuarioService.Listar() : usuarioService.Buscar(buscar);
         ViewBag.Buscar = buscar;
-        ViewBag.UsuarioEditando = editarId.HasValue ? usuarioService.BuscarPorId(editarId.Value) : null;
         return View(usuarios);
     }
 

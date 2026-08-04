@@ -4,6 +4,12 @@
     <meta charset="utf-8" />
     <title>Biblioteca Digital</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Modal sin JavaScript: el div solo se muestra cuando el fragmento
+           de la URL (#...) coincide con su id (pseudo-clase :target). */
+        .modal { display: none; }
+        .modal:target { display: flex; }
+    </style>
 </head>
 <body class="bg-slate-50">
     <div class="flex min-h-screen">

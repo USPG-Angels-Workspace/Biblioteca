@@ -13,11 +13,10 @@ public class LibrosController : ControladorAutenticado
         this.libroService = libroService;
     }
 
-    public IActionResult Index(string? buscar, int? editarId)
+    public IActionResult Index(string? buscar)
     {
         var libros = string.IsNullOrWhiteSpace(buscar) ? libroService.Listar() : libroService.Buscar(buscar);
         ViewBag.Buscar = buscar;
-        ViewBag.LibroEditando = editarId.HasValue ? libroService.BuscarPorId(editarId.Value) : null;
         return View(libros);
     }
 

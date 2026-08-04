@@ -1,9 +1,9 @@
 @model List<Libro>
-@{
-    var editando = ViewBag.LibroEditando as Libro;
-}
 
-<h1 class="text-2xl font-bold text-slate-800 mb-6">Gestión de libros</h1>
+<div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-bold text-slate-800">Gestión de libros</h1>
+    <a href="#modal-agregar" class="bg-blue-600 hover:bg-blue-700 text-white rounded px-4 py-2">Agregar libro</a>
+</div>
 
 @if (TempData["Error"] != null)
 {
@@ -15,44 +15,6 @@
            class="border border-slate-300 rounded px-3 py-2 flex-1" />
     <button type="submit" class="bg-slate-700 hover:bg-slate-800 text-white rounded px-4 py-2">Buscar</button>
     <a asp-action="Index" class="bg-slate-200 hover:bg-slate-300 text-slate-800 rounded px-4 py-2">Limpiar</a>
-</form>
-
-<form method="post" asp-action="Guardar" class="bg-white rounded shadow p-6 mb-6 grid grid-cols-2 gap-4">
-    <input type="hidden" name="id" value="@(editando?.GetId() ?? 0)" />
-    <div>
-        <label class="block text-sm font-medium text-slate-700 mb-1">Título</label>
-        <input type="text" name="titulo" value="@(editando?.GetTitulo())" required
-               class="w-full border border-slate-300 rounded px-3 py-2" />
-    </div>
-    <div>
-        <label class="block text-sm font-medium text-slate-700 mb-1">Autor</label>
-        <input type="text" name="autor" value="@(editando?.GetAutor())" required
-               class="w-full border border-slate-300 rounded px-3 py-2" />
-    </div>
-    <div>
-        <label class="block text-sm font-medium text-slate-700 mb-1">ISBN</label>
-        <input type="text" name="isbn" value="@(editando?.GetISBN())"
-               class="w-full border border-slate-300 rounded px-3 py-2" />
-    </div>
-    <div>
-        <label class="block text-sm font-medium text-slate-700 mb-1">Categoría</label>
-        <input type="text" name="categoria" value="@(editando?.GetCategoria())"
-               class="w-full border border-slate-300 rounded px-3 py-2" />
-    </div>
-    <div>
-        <label class="block text-sm font-medium text-slate-700 mb-1">Cantidad total</label>
-        <input type="number" min="0" name="cantidadTotal" value="@(editando?.GetCantidadTotal() ?? 0)" required
-               class="w-full border border-slate-300 rounded px-3 py-2" />
-    </div>
-    <div class="col-span-2 flex gap-2 items-end">
-        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white rounded px-4 py-2">
-            @(editando != null ? "Guardar cambios" : "Agregar libro")
-        </button>
-        @if (editando != null)
-        {
-            <a asp-action="Index" class="bg-slate-200 hover:bg-slate-300 text-slate-800 rounded px-4 py-2">Cancelar</a>
-        }
-    </div>
 </form>
 
 <table class="w-full bg-white rounded shadow overflow-hidden">
@@ -78,8 +40,7 @@
                 <td class="px-4 py-2">@libro.GetCantidadTotal()</td>
                 <td class="px-4 py-2">@libro.GetCantidadDisponible()</td>
                 <td class="px-4 py-2 space-x-2 whitespace-nowrap">
-                    <a asp-action="Index" asp-route-editarId="@libro.GetId()" asp-route-buscar="@ViewBag.Buscar"
-                       class="text-blue-600 hover:underline">Editar</a>
+                    <a href="#modal-editar-@libro.GetId()" class="text-blue-600 hover:underline">Editar</a>
                     <form method="post" asp-action="Eliminar" class="inline">
                         <input type="hidden" name="id" value="@libro.GetId()" />
                         <button type="submit" class="text-red-600 hover:underline">Eliminar</button>
@@ -89,3 +50,77 @@
         }
     </tbody>
 </table>
+
+<div id="modal-agregar" class="modal fixed inset-0 bg-black/50 items-center justify-center p-4 z-50">
+    <div class="bg-white rounded shadow-lg p-6 w-full max-w-lg relative">
+        <a href="#" class="absolute top-3 right-4 text-slate-400 hover:text-slate-700 text-xl leading-none">&times;</a>
+        <h2 class="text-lg font-semibold text-slate-800 mb-4">Agregar libro</h2>
+        <form method="post" asp-action="Guardar" class="grid grid-cols-2 gap-4">
+            <input type="hidden" name="id" value="0" />
+            <div class="col-span-2">
+                <label class="block text-sm font-medium text-slate-700 mb-1">Título</label>
+                <input type="text" name="titulo" required class="w-full border border-slate-300 rounded px-3 py-2" />
+            </div>
+            <div class="col-span-2">
+                <label class="block text-sm font-medium text-slate-700 mb-1">Autor</label>
+                <input type="text" name="autor" required class="w-full border border-slate-300 rounded px-3 py-2" />
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1">ISBN</label>
+                <input type="text" name="isbn" class="w-full border border-slate-300 rounded px-3 py-2" />
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1">Categoría</label>
+                <input type="text" name="categoria" class="w-full border border-slate-300 rounded px-3 py-2" />
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1">Cantidad total</label>
+                <input type="number" min="0" name="cantidadTotal" value="0" required class="w-full border border-slate-300 rounded px-3 py-2" />
+            </div>
+            <div class="col-span-2 flex justify-end gap-2 mt-2">
+                <a href="#" class="bg-slate-200 hover:bg-slate-300 text-slate-800 rounded px-4 py-2">Cancelar</a>
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white rounded px-4 py-2">Agregar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@foreach (var libro in Model)
+{
+    <div id="modal-editar-@libro.GetId()" class="modal fixed inset-0 bg-black/50 items-center justify-center p-4 z-50">
+        <div class="bg-white rounded shadow-lg p-6 w-full max-w-lg relative">
+            <a href="#" class="absolute top-3 right-4 text-slate-400 hover:text-slate-700 text-xl leading-none">&times;</a>
+            <h2 class="text-lg font-semibold text-slate-800 mb-4">Editar libro</h2>
+            <form method="post" asp-action="Guardar" class="grid grid-cols-2 gap-4">
+                <input type="hidden" name="id" value="@libro.GetId()" />
+                <div class="col-span-2">
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Título</label>
+                    <input type="text" name="titulo" value="@libro.GetTitulo()" required
+                           class="w-full border border-slate-300 rounded px-3 py-2" />
+                </div>
+                <div class="col-span-2">
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Autor</label>
+                    <input type="text" name="autor" value="@libro.GetAutor()" required
+                           class="w-full border border-slate-300 rounded px-3 py-2" />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">ISBN</label>
+                    <input type="text" name="isbn" value="@libro.GetISBN()" class="w-full border border-slate-300 rounded px-3 py-2" />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Categoría</label>
+                    <input type="text" name="categoria" value="@libro.GetCategoria()" class="w-full border border-slate-300 rounded px-3 py-2" />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Cantidad total</label>
+                    <input type="number" min="0" name="cantidadTotal" value="@libro.GetCantidadTotal()" required
+                           class="w-full border border-slate-300 rounded px-3 py-2" />
+                </div>
+                <div class="col-span-2 flex justify-end gap-2 mt-2">
+                    <a href="#" class="bg-slate-200 hover:bg-slate-300 text-slate-800 rounded px-4 py-2">Cancelar</a>
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white rounded px-4 py-2">Guardar cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+}
