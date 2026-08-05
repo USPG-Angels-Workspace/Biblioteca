@@ -12,12 +12,12 @@ public static class DataSeeder
     {
         if (usuarioService.Listar().Count == 0)
         {
-            // Identificación = carnet de estudiante (año + número), ej. 2600100.
-            usuarioService.Agregar(new Usuario(0, "María Fernanda López", "2600100",
+            // Identificación = carnet de estudiante (año + número), ej. 2600001.
+            usuarioService.Agregar(new Usuario(0, "María Fernanda López", "2600001",
                 "maria.lopez@uspg.edu.gt", "usuario123", DateTime.Now));
-            usuarioService.Agregar(new Usuario(0, "Carlos Andrés Pérez", "2600101",
+            usuarioService.Agregar(new Usuario(0, "Carlos Andrés Pérez", "2600002",
                 "carlos.perez@uspg.edu.gt", "usuario123", DateTime.Now));
-            usuarioService.Agregar(new Usuario(0, "Ana Lucía Ramírez", "2600102",
+            usuarioService.Agregar(new Usuario(0, "Ana Lucía Ramírez", "2600003",
                 "ana.ramirez@uspg.edu.gt", "usuario123", DateTime.Now));
         }
 

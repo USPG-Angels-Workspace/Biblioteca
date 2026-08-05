@@ -39,7 +39,7 @@ public class UsuarioService
     }
 
     // Genera el siguiente carnet del año actual: año (2 dígitos) + número
-    // consecutivo (5 dígitos, empieza en 00100), ej. 2600100, 2600101...
+    // consecutivo (5 dígitos, empieza en 00001), ej. 2600001, 2600002...
     public string GenerarSiguienteCarnet()
     {
         var prefijoAnio = DateTime.Now.ToString("yy");
@@ -48,7 +48,7 @@ public class UsuarioService
             .Select(u => u.GetIdentificacion())
             .Where(id => id.Length == 7 && id.StartsWith(prefijoAnio))
             .Select(id => int.Parse(id.Substring(2)))
-            .DefaultIfEmpty(99)
+            .DefaultIfEmpty(0)
             .Max() + 1;
 
         return prefijoAnio + siguienteNumero.ToString("D5");
