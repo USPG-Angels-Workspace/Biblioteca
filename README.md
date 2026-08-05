@@ -53,3 +53,43 @@ se generan localmente con `dotnet run -- seed`, o simplemente usando la app
   que define el menú lateral (distinto según el rol) y carga Tailwind por CDN.
 - `DataSeeder.cs` — genera los datos de ejemplo (usa los mismos `Services` que la app,
   no escribe JSON directamente). Se ejecuta con `dotnet run -- seed`.
+
+Para el detalle de diseño (por qué está separado así, cómo se aplican herencia
+y polimorfismo, flujo completo de una petición), ver [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md).
+
+## Flujo de una acción típica
+
+Registrar un préstamo, de punta a punta:
+
+1. El empleado envía el formulario de `Views/Prestamos/Index.cshtml` →
+   `PrestamosController.Prestar(usuarioId, libroId, ...)`.
+2. El controlador delega en `PrestamoService.CrearPrestamo(...)`.
+3. El service valida que el libro exista y tenga copias disponibles
+   (`Libro.EsDisponible()`), descuenta una unidad y le pide a `LibroService`
+   que la guarde.
+4. Crea el `Prestamo` (guardando `UsuarioId`/`LibroId`, no los objetos
+   completos) y lo persiste en `Data/prestamos.json`.
+5. El controlador redirige a `Index`, que vuelve a leer de los `Services`
+   para mostrar la tabla actualizada.
+
+Devolver un préstamo (`PrestamosController.Devolver`) sigue el mismo camino
+pero en reversa: marca el préstamo como `Devuelto` y repone la unidad en
+`Libro.CantidadDisponible`.
+
+## Validaciones y reglas de negocio
+
+- **Carnet de socio**: formato año (2 dígitos) + correlativo (5 dígitos), ej.
+  `2600001`. Se genera automáticamente al registrarse
+  (`UsuarioService.GenerarSiguienteCarnet`) y se valida con expresión regular
+  en `Usuario.SetIdentificacion`.
+- **Email único** entre socios: `UsuarioService.ExisteEmail` se revisa antes
+  de crear una cuenta nueva.
+- **Disponibilidad de libros**: `Libro.CantidadDisponible` nunca puede ser
+  negativa ni superar `CantidadTotal`; un préstamo solo se puede crear si hay
+  al menos una copia disponible.
+- **Un préstamo no se puede devolver dos veces**: `PrestamoService.RegistrarDevolucion`
+  lanza un error si el préstamo ya está `Devuelto`.
+- **Acceso por rol**: un socio nunca ve las pantallas de gestión (`Libros`,
+  `Usuarios`, `Empleados`, `Prestamos`) ni un empleado ve el `Portal` del
+  socio — lo exige `ControladorEmpleado`/`ControladorUsuario` según el rol
+  guardado en la sesión al iniciar sesión.
