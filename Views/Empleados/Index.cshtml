@@ -15,8 +15,7 @@
         <tr>
             <th class="px-4 py-2">Nombre</th>
             <th class="px-4 py-2">Identificación</th>
-            <th class="px-4 py-2">Contacto</th>
-            <th class="px-4 py-2">Usuario</th>
+            <th class="px-4 py-2">Email</th>
             <th class="px-4 py-2"></th>
         </tr>
     </thead>
@@ -26,8 +25,7 @@
             <tr>
                 <td class="px-4 py-2">@empleado.GetNombre()</td>
                 <td class="px-4 py-2">@empleado.GetIdentificacion()</td>
-                <td class="px-4 py-2">@empleado.GetContacto()</td>
-                <td class="px-4 py-2">@empleado.GetNombreUsuario()</td>
+                <td class="px-4 py-2">@empleado.GetEmail()</td>
                 <td class="px-4 py-2 space-x-2 whitespace-nowrap">
                     <a href="#modal-editar-@empleado.GetId()" class="text-blue-600 hover:underline">Editar</a>
                     <form method="post" asp-action="Eliminar" class="inline">
@@ -55,12 +53,8 @@
                 <input type="text" name="identificacion" required class="w-full border border-slate-300 rounded px-3 py-2" />
             </div>
             <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Contacto</label>
-                <input type="text" name="contacto" class="w-full border border-slate-300 rounded px-3 py-2" />
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Usuario</label>
-                <input type="text" name="nombreUsuario" required class="w-full border border-slate-300 rounded px-3 py-2" />
+                <label class="block text-sm font-medium text-slate-700 mb-1">Email</label>
+                <input type="email" name="email" required class="w-full border border-slate-300 rounded px-3 py-2" />
             </div>
             <div>
                 <label class="block text-sm font-medium text-slate-700 mb-1">Contraseña</label>
@@ -93,12 +87,8 @@
                            class="w-full border border-slate-300 rounded px-3 py-2" />
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">Contacto</label>
-                    <input type="text" name="contacto" value="@empleado.GetContacto()" class="w-full border border-slate-300 rounded px-3 py-2" />
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">Usuario</label>
-                    <input type="text" name="nombreUsuario" value="@empleado.GetNombreUsuario()" required
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Email</label>
+                    <input type="email" name="email" value="@empleado.GetEmail()" required
                            class="w-full border border-slate-300 rounded px-3 py-2" />
                 </div>
                 <div>

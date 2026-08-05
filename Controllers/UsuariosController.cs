@@ -21,14 +21,13 @@ public class UsuariosController : ControladorEmpleado
     }
 
     [HttpPost]
-    public IActionResult Guardar(int id, string nombre, string identificacion, string contacto,
-        string nombreUsuario, string contrasena)
+    public IActionResult Guardar(int id, string nombre, string identificacion, string email, string contrasena)
     {
         try
         {
             if (id == 0)
             {
-                var usuario = new Usuario(0, nombre, identificacion, contacto, nombreUsuario, contrasena, DateTime.Now);
+                var usuario = new Usuario(0, nombre, identificacion, email, contrasena, DateTime.Now);
                 usuarioService.Agregar(usuario);
             }
             else
@@ -42,8 +41,8 @@ public class UsuariosController : ControladorEmpleado
 
                 // Si se deja en blanco la contraseña al editar, se conserva la actual.
                 var contrasenaFinal = string.IsNullOrWhiteSpace(contrasena) ? usuarioExistente.GetContrasena() : contrasena;
-                var usuarioEditado = new Usuario(id, nombre, identificacion, contacto,
-                    nombreUsuario, contrasenaFinal, usuarioExistente.GetFechaRegistro());
+                var usuarioEditado = new Usuario(id, nombre, identificacion, email,
+                    contrasenaFinal, usuarioExistente.GetFechaRegistro());
                 usuarioService.Editar(usuarioEditado);
             }
         }

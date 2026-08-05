@@ -19,14 +19,13 @@ public class EmpleadosController : ControladorEmpleado
     }
 
     [HttpPost]
-    public IActionResult Guardar(int id, string nombre, string identificacion, string contacto,
-        string nombreUsuario, string contrasena)
+    public IActionResult Guardar(int id, string nombre, string identificacion, string email, string contrasena)
     {
         try
         {
             if (id == 0)
             {
-                var empleado = new Bibliotecario(0, nombre, identificacion, contacto, nombreUsuario, contrasena);
+                var empleado = new Bibliotecario(0, nombre, identificacion, email, contrasena);
                 bibliotecarioService.Agregar(empleado);
             }
             else
@@ -40,7 +39,7 @@ public class EmpleadosController : ControladorEmpleado
 
                 // Si se deja en blanco la contraseña al editar, se conserva la actual.
                 var contrasenaFinal = string.IsNullOrWhiteSpace(contrasena) ? empleadoExistente.GetContrasena() : contrasena;
-                var empleadoEditado = new Bibliotecario(id, nombre, identificacion, contacto, nombreUsuario, contrasenaFinal);
+                var empleadoEditado = new Bibliotecario(id, nombre, identificacion, email, contrasenaFinal);
                 bibliotecarioService.Editar(empleadoEditado);
             }
         }

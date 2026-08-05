@@ -26,15 +26,15 @@ public class CuentaController : Controller
     }
 
     [HttpPost]
-    public IActionResult Login(string nombreUsuario, string contrasena)
+    public IActionResult Login(string email, string contrasena)
     {
-        if (string.IsNullOrWhiteSpace(nombreUsuario) || string.IsNullOrWhiteSpace(contrasena))
+        if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(contrasena))
         {
-            ViewBag.Error = "Ingresa el usuario y la contraseña.";
+            ViewBag.Error = "Ingresa el email y la contraseña.";
             return View();
         }
 
-        var bibliotecario = bibliotecarioService.ValidarLogin(nombreUsuario, contrasena);
+        var bibliotecario = bibliotecarioService.ValidarLogin(email, contrasena);
         if (bibliotecario != null)
         {
             HttpContext.Session.SetInt32("PersonaId", bibliotecario.GetId());
@@ -43,7 +43,7 @@ public class CuentaController : Controller
             return RedirectToAction("Index", "Libros");
         }
 
-        var usuario = usuarioService.ValidarLogin(nombreUsuario, contrasena);
+        var usuario = usuarioService.ValidarLogin(email, contrasena);
         if (usuario != null)
         {
             HttpContext.Session.SetInt32("PersonaId", usuario.GetId());
@@ -52,7 +52,7 @@ public class CuentaController : Controller
             return RedirectToAction("Index", "Portal");
         }
 
-        ViewBag.Error = "Usuario o contraseña incorrectos.";
+        ViewBag.Error = "Email o contraseña incorrectos.";
         return View();
     }
 
@@ -62,23 +62,23 @@ public class CuentaController : Controller
     }
 
     [HttpPost]
-    public IActionResult Registro(string nombre, string identificacion, string contacto, string nombreUsuario, string contrasena)
+    public IActionResult Registro(string nombre, string identificacion, string email, string contrasena)
     {
-        if (string.IsNullOrWhiteSpace(nombreUsuario) || string.IsNullOrWhiteSpace(contrasena))
+        if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(contrasena))
         {
-            ViewBag.Error = "Ingresa un usuario y una contraseña.";
+            ViewBag.Error = "Ingresa un email y una contraseña.";
             return View();
         }
 
-        if (usuarioService.ExisteNombreUsuario(nombreUsuario))
+        if (usuarioService.ExisteEmail(email))
         {
-            ViewBag.Error = "Ese nombre de usuario ya está en uso.";
+            ViewBag.Error = "Ese email ya está registrado.";
             return View();
         }
 
         try
         {
-            var usuario = new Usuario(0, nombre, identificacion, contacto, nombreUsuario, contrasena, DateTime.Now);
+            var usuario = new Usuario(0, nombre, identificacion, email, contrasena, DateTime.Now);
             usuarioService.Agregar(usuario);
 
             HttpContext.Session.SetInt32("PersonaId", usuario.GetId());
