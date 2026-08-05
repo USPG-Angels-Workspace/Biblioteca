@@ -18,7 +18,7 @@ public class BibliotecarioService
         // Primera vez que se ejecuta el programa: se crea un bibliotecario por defecto.
         if (bibliotecarios.Count == 0)
         {
-            bibliotecarios.Add(new Bibliotecario(1, "Administrador", "0000", "", "admin", "admin123"));
+            bibliotecarios.Add(new Bibliotecario(1, "Administrador", "0000", "admin@biblioteca.edu.gt", "admin123"));
             Guardar();
         }
     }
@@ -33,10 +33,10 @@ public class BibliotecarioService
         return bibliotecarios.FirstOrDefault(b => b.GetId() == id);
     }
 
-    public Bibliotecario? ValidarLogin(string nombreUsuario, string contrasena)
+    public Bibliotecario? ValidarLogin(string email, string contrasena)
     {
         return bibliotecarios.FirstOrDefault(b =>
-            b.GetNombreUsuario().Equals(nombreUsuario, StringComparison.OrdinalIgnoreCase) &&
+            b.GetEmail().Equals(email, StringComparison.OrdinalIgnoreCase) &&
             b.GetContrasena() == contrasena);
     }
 
@@ -55,8 +55,7 @@ public class BibliotecarioService
 
         existente.SetNombre(bibliotecario.GetNombre());
         existente.SetIdentificacion(bibliotecario.GetIdentificacion());
-        existente.SetContacto(bibliotecario.GetContacto());
-        existente.SetNombreUsuario(bibliotecario.GetNombreUsuario());
+        existente.SetEmail(bibliotecario.GetEmail());
         existente.SetContrasena(bibliotecario.GetContrasena());
         Guardar();
     }
@@ -79,8 +78,7 @@ public class BibliotecarioService
                 nodo!["Id"]!.GetValue<int>(),
                 nodo!["Nombre"]!.GetValue<string>(),
                 nodo!["Identificacion"]!.GetValue<string>(),
-                nodo!["Contacto"]!.GetValue<string>(),
-                nodo!["NombreUsuario"]!.GetValue<string>(),
+                nodo!["Email"]!.GetValue<string>(),
                 nodo!["Contrasena"]!.GetValue<string>()));
         }
     }
@@ -96,8 +94,7 @@ public class BibliotecarioService
                 ["Id"] = bibliotecario.GetId(),
                 ["Nombre"] = bibliotecario.GetNombre(),
                 ["Identificacion"] = bibliotecario.GetIdentificacion(),
-                ["Contacto"] = bibliotecario.GetContacto(),
-                ["NombreUsuario"] = bibliotecario.GetNombreUsuario(),
+                ["Email"] = bibliotecario.GetEmail(),
                 ["Contrasena"] = bibliotecario.GetContrasena()
             });
         }

@@ -26,16 +26,16 @@ public class UsuarioService
         return usuarios.FirstOrDefault(u => u.GetId() == id);
     }
 
-    public Usuario? ValidarLogin(string nombreUsuario, string contrasena)
+    public Usuario? ValidarLogin(string email, string contrasena)
     {
         return usuarios.FirstOrDefault(u =>
-            u.GetNombreUsuario().Equals(nombreUsuario, StringComparison.OrdinalIgnoreCase) &&
+            u.GetEmail().Equals(email, StringComparison.OrdinalIgnoreCase) &&
             u.GetContrasena() == contrasena);
     }
 
-    public bool ExisteNombreUsuario(string nombreUsuario)
+    public bool ExisteEmail(string email)
     {
-        return usuarios.Any(u => u.GetNombreUsuario().Equals(nombreUsuario, StringComparison.OrdinalIgnoreCase));
+        return usuarios.Any(u => u.GetEmail().Equals(email, StringComparison.OrdinalIgnoreCase));
     }
 
     public List<Usuario> Buscar(string texto)
@@ -62,8 +62,7 @@ public class UsuarioService
 
         existente.SetNombre(usuario.GetNombre());
         existente.SetIdentificacion(usuario.GetIdentificacion());
-        existente.SetContacto(usuario.GetContacto());
-        existente.SetNombreUsuario(usuario.GetNombreUsuario());
+        existente.SetEmail(usuario.GetEmail());
         existente.SetContrasena(usuario.GetContrasena());
         existente.SetFechaRegistro(usuario.GetFechaRegistro());
         Guardar();
@@ -87,8 +86,7 @@ public class UsuarioService
                 nodo!["Id"]!.GetValue<int>(),
                 nodo!["Nombre"]!.GetValue<string>(),
                 nodo!["Identificacion"]!.GetValue<string>(),
-                nodo!["Contacto"]!.GetValue<string>(),
-                nodo!["NombreUsuario"]!.GetValue<string>(),
+                nodo!["Email"]!.GetValue<string>(),
                 nodo!["Contrasena"]!.GetValue<string>(),
                 nodo!["FechaRegistro"]!.GetValue<DateTime>()));
         }
@@ -105,8 +103,7 @@ public class UsuarioService
                 ["Id"] = usuario.GetId(),
                 ["Nombre"] = usuario.GetNombre(),
                 ["Identificacion"] = usuario.GetIdentificacion(),
-                ["Contacto"] = usuario.GetContacto(),
-                ["NombreUsuario"] = usuario.GetNombreUsuario(),
+                ["Email"] = usuario.GetEmail(),
                 ["Contrasena"] = usuario.GetContrasena(),
                 ["FechaRegistro"] = usuario.GetFechaRegistro()
             });

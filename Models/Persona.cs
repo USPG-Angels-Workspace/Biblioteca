@@ -1,24 +1,24 @@
+using System.Text.RegularExpressions;
+
 namespace Biblioteca.Models;
 
 // Clase base para cualquier persona del sistema (Usuario o Bibliotecario).
 // Encapsula los datos comunes, incluidas las credenciales de acceso —
-// ambas subclases necesitan iniciar sesión, cada una con su propio rol.
+// ambas subclases inician sesión con su email y contraseña.
 public abstract class Persona
 {
     private int id;
     private string nombre = string.Empty;
     private string identificacion = string.Empty;
-    private string contacto = string.Empty;
-    private string nombreUsuario = string.Empty;
+    private string email = string.Empty;
     private string contrasena = string.Empty;
 
-    protected Persona(int id, string nombre, string identificacion, string contacto, string nombreUsuario, string contrasena)
+    protected Persona(int id, string nombre, string identificacion, string email, string contrasena)
     {
         SetId(id);
         SetNombre(nombre);
         SetIdentificacion(identificacion);
-        SetContacto(contacto);
-        SetNombreUsuario(nombreUsuario);
+        SetEmail(email);
         SetContrasena(contrasena);
     }
 
@@ -49,33 +49,24 @@ public abstract class Persona
         return identificacion;
     }
 
-    public void SetIdentificacion(string valor)
+    // Virtual: Usuario la sobrescribe para exigir el formato de carnet.
+    public virtual void SetIdentificacion(string valor)
     {
         if (string.IsNullOrWhiteSpace(valor))
             throw new ArgumentException("La identificación no puede estar vacía.");
         identificacion = valor.Trim();
     }
 
-    public string GetContacto()
+    public string GetEmail()
     {
-        return contacto;
+        return email;
     }
 
-    public void SetContacto(string valor)
+    public void SetEmail(string valor)
     {
-        contacto = valor?.Trim() ?? string.Empty;
-    }
-
-    public string GetNombreUsuario()
-    {
-        return nombreUsuario;
-    }
-
-    public void SetNombreUsuario(string valor)
-    {
-        if (string.IsNullOrWhiteSpace(valor))
-            throw new ArgumentException("El nombre de usuario no puede estar vacío.");
-        nombreUsuario = valor.Trim();
+        if (string.IsNullOrWhiteSpace(valor) || !Regex.IsMatch(valor.Trim(), @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+            throw new ArgumentException("El email no es válido.");
+        email = valor.Trim();
     }
 
     public string GetContrasena()
