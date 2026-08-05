@@ -19,10 +19,10 @@ para practicar POO (encapsulamiento, herencia y polimorfismo) y el patrón MVC.
 4. Iniciar sesión con alguna de las credenciales de ejemplo (o crear una cuenta de
    socio nueva desde el link "Crear cuenta" del login):
 
-   | Rol | Usuario | Contraseña | Qué ve |
+   | Rol | Email | Contraseña | Qué ve |
    |---|---|---|---|
-   | Empleado (bibliotecario) | `admin` | `admin123` | Gestión de libros, usuarios, empleados y préstamos |
-   | Usuario (socio) | `maria`, `carlos` o `ana` | `usuario123` | Su portal: sus propios préstamos y el catálogo disponible |
+   | Empleado (bibliotecario) | `admin@biblioteca.edu.gt` | `admin123` | Gestión de libros, usuarios, empleados y préstamos |
+   | Usuario (socio) | `maria.lopez@uspg.edu.gt`, `carlos.perez@uspg.edu.gt` o `ana.ramirez@uspg.edu.gt` | `usuario123` | Su portal: sus propios préstamos y el catálogo disponible |
 
 Corre igual en Windows, Linux o Mac — no requiere nada adicional (los estilos
 usan [Tailwind CSS por CDN](https://tailwindcss.com/), sin necesidad de Node/npm).
@@ -36,9 +36,11 @@ se generan localmente con `dotnet run -- seed`, o simplemente usando la app
 
 - **Empleado** (`Bibliotecario`): gestiona el ingreso de libros, usuarios y otros
   empleados, y registra los préstamos/devoluciones.
-- **Usuario** (socio, `Usuario`): tiene su propio login y, al entrar, solo ve
-  sus propios préstamos (activos e historial) y el catálogo de libros
-  disponibles — el préstamo en sí lo sigue registrando un empleado.
+- **Usuario** (socio, `Usuario`): tiene su propio login (email + contraseña) y, al
+  entrar, solo ve sus propios préstamos (activos e historial) y el catálogo de
+  libros disponibles — el préstamo en sí lo sigue registrando un empleado. Su
+  identificación es el carnet de estudiante: año (2 dígitos) + número (5 dígitos),
+  ej. `2600100`.
 
 ## Estructura
 
