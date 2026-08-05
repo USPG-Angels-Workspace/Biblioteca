@@ -38,6 +38,22 @@ public class UsuarioService
         return usuarios.Any(u => u.GetEmail().Equals(email, StringComparison.OrdinalIgnoreCase));
     }
 
+    // Genera el siguiente carnet del año actual: año (2 dígitos) + número
+    // consecutivo (5 dígitos, empieza en 00100), ej. 2600100, 2600101...
+    public string GenerarSiguienteCarnet()
+    {
+        var prefijoAnio = DateTime.Now.ToString("yy");
+
+        var siguienteNumero = usuarios
+            .Select(u => u.GetIdentificacion())
+            .Where(id => id.Length == 7 && id.StartsWith(prefijoAnio))
+            .Select(id => int.Parse(id.Substring(2)))
+            .DefaultIfEmpty(99)
+            .Max() + 1;
+
+        return prefijoAnio + siguienteNumero.ToString("D5");
+    }
+
     public List<Usuario> Buscar(string texto)
     {
         if (string.IsNullOrWhiteSpace(texto)) return Listar();

@@ -27,7 +27,9 @@ public class UsuariosController : ControladorEmpleado
         {
             if (id == 0)
             {
-                var usuario = new Usuario(0, nombre, identificacion, email, contrasena, DateTime.Now);
+                // El carnet se genera solo (año + consecutivo), no lo captura el empleado.
+                var carnet = usuarioService.GenerarSiguienteCarnet();
+                var usuario = new Usuario(0, nombre, carnet, email, contrasena, DateTime.Now);
                 usuarioService.Agregar(usuario);
             }
             else

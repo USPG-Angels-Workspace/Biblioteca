@@ -62,7 +62,7 @@ public class CuentaController : Controller
     }
 
     [HttpPost]
-    public IActionResult Registro(string nombre, string identificacion, string email, string contrasena)
+    public IActionResult Registro(string nombre, string email, string contrasena)
     {
         if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(contrasena))
         {
@@ -78,12 +78,14 @@ public class CuentaController : Controller
 
         try
         {
-            var usuario = new Usuario(0, nombre, identificacion, email, contrasena, DateTime.Now);
+            var carnet = usuarioService.GenerarSiguienteCarnet();
+            var usuario = new Usuario(0, nombre, carnet, email, contrasena, DateTime.Now);
             usuarioService.Agregar(usuario);
 
             HttpContext.Session.SetInt32("PersonaId", usuario.GetId());
             HttpContext.Session.SetString("PersonaNombre", usuario.GetNombre());
             HttpContext.Session.SetString("PersonaRol", "Usuario");
+            TempData["Mensaje"] = $"¡Bienvenido! Tu carnet es {carnet}.";
             return RedirectToAction("Index", "Portal");
         }
         catch (ArgumentException ex)

@@ -51,16 +51,12 @@
     <div class="bg-white rounded shadow-lg p-6 w-full max-w-lg relative">
         <a href="#" class="absolute top-3 right-4 text-slate-400 hover:text-slate-700 text-xl leading-none">&times;</a>
         <h2 class="text-lg font-semibold text-slate-800 mb-4">Agregar usuario</h2>
+        <p class="text-xs text-slate-500 -mt-2 mb-2">El carnet se asigna automáticamente.</p>
         <form method="post" asp-action="Guardar" class="grid grid-cols-1 gap-4">
             <input type="hidden" name="id" value="0" />
             <div>
                 <label class="block text-sm font-medium text-slate-700 mb-1">Nombre</label>
                 <input type="text" name="nombre" required class="w-full border border-slate-300 rounded px-3 py-2" />
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Carnet (año + número, ej. 2600100)</label>
-                <input type="text" name="identificacion" required pattern="\d{7}" title="7 dígitos: año + número, ej. 2600100"
-                       placeholder="2600100" class="w-full border border-slate-300 rounded px-3 py-2" />
             </div>
             <div>
                 <label class="block text-sm font-medium text-slate-700 mb-1">Email</label>
